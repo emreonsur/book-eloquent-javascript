@@ -1,7 +1,6 @@
-# Eloquent JavaScript Fourth Edition
-# by Marijn Haverbeke
-# Personal Notes
+# Personal Notes on Eloquent JavaScript 4th Ed.
 
+**Author**: Marijn Haverbeke
 **Reader:** Emre Önsür
 
 ## What is JavaScript?
@@ -12,38 +11,43 @@ Javascript has almost nothing to do with the programming language *Java*. The na
 
 After its adoption outside of Netscape, a standart document was written to describe the way the JavaScript language should work so that the various pieces of software that claimed to support JavaScript could make sure they actually provided the same language. The Ecma International organization conducted the standardization, and this is called the **ECMAScript standart**. ECMAScript and JavaScript can be used interchangeably.
 
-## Values
+---
 
-In a JavaScript environment, chunks of bits that represent pieces of information are called *values*. Some values are numbers, some values are pieces of text, some values are functions, and so on.
+## Part 1: Language
 
-## The Atomic Elements of JavaScript
+### 1. Values, Types, and Operators
 
-In JavaScript, the **atomic elements** are the smallest, indivisible pieces you use to build *everything else*.
+#### Values
 
-There are two core atomic elements in JavaScript:
+In a JavaScript environment, chunks of bits that represent pieces of information are called *values*. Some values are *numbers*, some values are *pieces of text*, some values are *functions*, and so on.
 
-- **Simple (primitive) value types**
-- **Operators**
+---
 
-### Numbers
+#### Numbers
 
-JavaScript `Number` type is stored in 64 bits and follows the [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754). Consuquently, whole numbers are represented by 53 of those bits.
-
-Therefore, the **range_ of whole numbers** that can be represented with the `Number` type is **[-9_007_199_254_740_991, +9_007_199_254_740_991]**.
-
-A `Number` value can be written in several ways:
+ In JavaScript programs, values of the *number* type can be written in several ways:
 
 - As an integer: `23`
 - As a fractional number using a dot: `9.81`
 - Using scientific notation: `2.998e2`
 
-> Calculations with integers that are in the aforementioned range are guaranteed to always be precise. However, calculations with fractional numbers are generally not.
-
 ```javascript
-console.log(0.1 + 0.2);
+console.log(23);
+console.log(9.81);
+console.log(2.998e2);
 ```
 
-#### Arithmetic Operators
+JavaScript numbers use the 64-bit [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754) format. Although this format can represent a huge range of values, it can only store whole numbers exactly up to a certain precision. Only 53 bits are available for representing the integer part, which limits the range of exact whole numbers. As a result, the integers that can be represented with complete precision fall within the range of **\[-9,007,199,254,740,991, +9,007,199,254,740,991\]**. Whole numbers outside this range can still be stored, but they may lose exactness.
+
+ > Calculations with integers inside the aforementioned range are guaranteed to always be precise. However, calculations with fractional numbers are generally not.
+
+```javascript
+console.log(0.1 + 0.2); // output: 0.30000000000000004
+```
+
+##### Arithmetic Operators
+
+> Basic arithmetic operators
 
 ```javascript
 console.log(20 + 10);
@@ -53,7 +57,14 @@ console.log(20 / 10);
 console.log(10 % 3);
 ```
 
-#### Special Numbers
+Precedence table regarding the operators above:
+
+| Operators   | Associativity |
+| ----------- | ------------- |
+| `*` `/` `%` | left to right |
+| `+` `-`     | left to right |
+
+##### Special Numbers
 
 There are three special values that are considered numbers but don't behave like normal numbers:
 
@@ -61,7 +72,7 @@ There are three special values that are considered numbers but don't behave like
 - `-Infinity`
 - `NaN` — which stands for "not a number"
 
-For IEEE-754 64-bit floating point numbers (e.g. JS `Number`), x as a non-zero value:
+For IEEE-754 64-bit floating point numbers (e.g. JS number), x as a non-zero value:
 
 - If `x > 0`, then `x / 0` is `Infinity`
 - If `x < 0`, then `x / 0` is `-Infinity`
@@ -83,11 +94,22 @@ console.log(Infinity - Infinity); // Nan
 console.log(Infinity * Infinity); // Infinity
 console.log(Infinity / Infinity); // NaN
 console.log(Infinity % Infinity); // NaN
+console.log(Infinity + 2); // Infinity
+console.log(2 - Infinity); // -Infinity
+console.log(2 * Infinity); // Infinity
+console.log(2 / Infinity); // 0
+console.log(0 / Infinity); // 0
+console.log(Infinity / 0); // Infinity
+console.log(2 % Infinity); // 2
+console.log(0 % Infinity); // 0
+console.log(Infinity % 0); // NaN
 ```
 
-### Strings
+---
 
-> Strings are written by enclosing their content in quotes
+#### Strings
+
+Strings are written by enclosing their content in quotes
 
 ```javascript
 console.log("Hello, World!");
@@ -95,14 +117,14 @@ console.log('Hello, World!');
 console.log(`Hello, World!`);
 ```
 
-> Newlines can be included in a string with backticks
+ Newlines can be included in a string with backticks
 
 ```javascript
 console.log(`Line 1
 Line 2`);
 ```
 
-> Characters can be escaped inside a quoted text using a backslash (`\`).
+Characters can be escaped inside a quoted text using a backslash (`\`).
 
 ```javascript
 console.log("Line 1\nLine 2");
@@ -110,13 +132,13 @@ console.log("Line 3\nLine 4");
 console.log(`Line 5\nLine 6`);
 ```
 
-> Escaping backslash
+Escaping backslash
 
 ```javascript
-console.log('A newline can be expressed with "\\n"');
+console.log('A newline can be escaped with "\\n"');
 ```
 
-> `+` operator can be used to *concatenate* two strings together.
+`+` operator can be used to *concatenate* two strings together.
 
 ```javascript
 console.log("Hello" + " " + "World!");
@@ -124,13 +146,13 @@ console.log("Hello" + " " + "World!");
 
 Strings written with single or double quotes behave very much the same — the only difference lies in which type of quote you need to escape inside of them.
 
-> Single quotes (`'`) can be written directly in a double-quoted string — without escaping.
+Single quotes (`'`) can be written directly in a double-quoted string — without escaping.
 
 ```javascript
 console.log("This is a man's world.");
 ```
 
-> Double quotes (`"`) can be written directly in a single-quoted string — without escaping.
+Double quotes (`"`) can be written directly in a single-quoted string — without escaping.
 
 ```javascript
 console.log('My name is "Emre"');
@@ -144,7 +166,9 @@ Backtick-quoted strings are usually called *template literals* and can do a few 
 console.log(`Half of 100 is ${100 / 2}.`);
 ```
 
-### Unary Operators
+---
+
+#### Unary Operators
 
 > `typeof` operator produces a string value naming the type of the value it receives as an argument.
 
@@ -160,34 +184,36 @@ console.log(-4);
 console.log(-(-4));
 ```
 
-### Boolean Values
+---
+
+#### Boolean Values
 
 JavaScript's *Boolean* type has only two values as `true` and `false`.
 
-#### Comparison
+##### Comparison
 
 `<` (less than) and `>` (greater than) operators produce Boolean values.
 
 > On numbers, these operators make simple comparisons.
 
 ```javascript
-console.log(2 < 3);
-console.log(2 > 3);
+console.log(2 < 3); // output: true
+console.log(2 > 3); // output: false
 ```
 
-> Strings can be also compared in the same way. When two strings are compared, JavaScript goes over the characters  from left to right, comparing the Unicode codes one by one.
+> Strings can be also compared in the same way. When two strings are compared, JavaScript goes over the characters from left to right, comparing the Unicode codes one by one.
 
 ```javascript
 console.log("A" < "a");
 console.log("Anastasia" > "Natasha");
 ```
 
-Other similar operators are:
+Other similar comparison operators are:
 
-- >=
-- <=
-- ==
-- !=
+- `>=`
+- `<=`
+- `==`
+- `!=`
 
 > There is only one value in JavaScript that is not equal to itself, and that is the value `NaN`.
 
@@ -195,7 +221,9 @@ Other similar operators are:
 console.log(NaN == NaN); // false
 ```
 
-#### Logical Operators
+`NaN` is supposed to denote the result of a nonsensical computation, so it isn't equal to the result of any *other* non-sensical computations.
+
+##### Logical Operators
 
 JavaScript supports three logical operators:
 
@@ -218,12 +246,10 @@ console.log(false && false); // false
 ```
 
 > The `!` operator denotes logical *not*. It is a unary prefix operator, and it produces the logical opposite of the value given to it.
-> `!true` produces `false`
-> `!false` produces `true`
 
 ```javascript
-console.log(!true);
-console.log(!false);
+console.log(!true); // false
+console.log(!false); // true
 ```
 
 The *conditional* operator (the ternary operator) uses the value to the left of the question mark to decide which of the two other values to produce.
@@ -233,15 +259,17 @@ console.log(true ? 1 : 2); // 1
 console.log(false ? 1 : 2); // 2
 ```
 
-### Empty Values
+#### Empty Values
 
 Two special values, `null` and `undefined`, are used to denote the absence of a *meaningful* value. They are themselves values, but carry no information. They can be treated as interchangeable.
 
-### Automatic Type Conversion
+#### Automatic Type Conversion
 
 JavaScript goes out of its way to accept almost any program given to it, even programs that do odd things.
 
 When an operator is applied to the "wrong" type of value, JavaScript will quietly convert that value to the type it needs, using a set of rules that often aren't what you want or expect. This is called *type coercion*.
+
+The difference between type conversion and coercion is that type conversion is done on purpose, whilst type coercion is done by JavaScript automatically.
 
 > The `null` below becomes `0`.
 
@@ -292,19 +320,22 @@ console.log(8 * null); // 0
 console.log(null == 0); // false
 ```
 
-**When any automatic type conversions are not wanted to happen, there are two additional operators:**
+When any automatic type conversions are not wanted to happen, there are two additional operators:
 
 - `===`
 - `!==`
+
+>`===` and `!==` operators prevent type coercion.
 
 ```javascript
 console.log(0 == false); // true
 console.log(0 === false); // false
 console.log(0 != false); // false
 console.log(0 !== false); // true
+console.log(null === undefined); // false
 ```
 
-#### Short-Circuiting of Logical Operators
+##### Short-Circuiting of Logical Operators
 
 For non-Boolean values, the logical operators `&&` and `||` first convert the left operand to Boolean type in order to decide what to do, but depending on the operator and the result of that conversion, they return either the *original* left-hand value or the right-hand value.
 
@@ -319,8 +350,8 @@ This functionality can be used for getting a default value. If we have a value t
 
 The values below count as false according to the rules for converting strings and numbers to Boolean values:
 
-- 0
-- NaN
+- `0`
+- `NaN`
 - The empty string (`""`)
 
 ```javascript
@@ -332,7 +363,7 @@ console.log(undefined || true); // Outputs: true
 console.log(false || "yes"); // Outputs: yes
 ```
 
-> The `??` operator resembles `||` but returns the value on the right only if the one on the left is `undefined` or `null`.
+> The `??` operator resembles `||` but returns the value on the right **only** if the one on the left is `undefined` or `null`.
 
 ```javascript
 console.log(0 ?? 1); // Outputs: 0
@@ -356,26 +387,26 @@ console.log(undefined && true); // -> undefined
 console.log(false && "yes"); // -> false
 ```
 
-## Program Structure
+### 2. Program Structure
 
-### Expressions and Statements
+#### Expressions and Statements
 
 A fragment of code that produces a value is called an *expression*.
 
-If an expression corresponds to a sentence fragment, a JavaScript *statement* corresponds to a full sentence. A program is a list of statements.
+If an expression corresponds to a sentence fragment, a JavaScript *statement* corresponds to a full sentence. In JavaScript, a statement is a unit of code that tells the program to do something. A program is a list of statements.
 
 The simplest kind of statement is an expression with a semicolon after it: `1;`, `!false;`
 
-### Bindings / Variables
+#### Bindings / Variables
 
-`let` keyword is used to define a binding.
+> `let` keyword is used to define a binding.
 
 ```javascript
 let a = 5 * 5;
 console.log(a + 10);
 ```
 
-Accessing the value of a binding defined without a value yields the value `undefined`.
+> Accessing the value of a binding defined without a value yields the value `undefined`.
 
 ```javascript
 let a;
