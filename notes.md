@@ -1,6 +1,6 @@
 # Personal Notes on Eloquent JavaScript 4th Ed.
 
-**Author**: Marijn Haverbeke
+**Author of the Book**: Marijn Haverbeke
 **Reader:** Emre Önsür
 
 ## What is JavaScript?
@@ -412,4 +412,44 @@ console.log(a + 10);
 let a;
 console.log(a); // undefined
 ```
+
+> The keyword `var` is the way bindings were declared in pre-2015 JavaScript, when `let` didn't exist yet. We'll get back to the precise way it differs from `let`. For now, let's know that it does the same thing, But it'll be rarely used in this book because it behaves oddly in some situations.
+
+```javascript
+var name = "Emre";
+console.log(name);
+```
+
+> The `const` keyword can also be used to create bindings.
+
+```javascript
+const name = "Emre";
+console.log(name);
+```
+
+`const` keyword stands for *constant*. It defines a constant binding, which points at the same value for as long as it lives. This is useful for bindings that just give a name to a value so that it can be easily referred later.
+
+> The code below gives an error.
+
+```javascript
+const name = "Emre";
+name = "Ali"; // TypeError: invalid assignment to const 'name'
+console.log(name);
+```
+
+> Example use of `const`
+
+```javascript
+const pi = 3.14159;
+console.log(pi);
+```
+
+#### Binding Names
+
+- Binding names can be any sequence of one or more letters.
+- Binding names can include digits but not start with a digit.
+- Binging names can include dollar sign (`&`) and underscore (`_`) but not other special characters.
+- Bindings names cannot be a keyword or "reserved for use" word.
+
+#### The Environment
 
